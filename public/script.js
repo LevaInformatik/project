@@ -199,8 +199,17 @@ document.addEventListener('DOMContentLoaded', () => {
             question,
             options
         };
+        console.log(surveyData);
 
-        socket.emit('startSurvey', surveyData);
+        if (surveyData) {
+            socket.emit("startSurvey", surveyData, (response) => {
+                if (response === 'sent') {
+                    console.log("Survey data sent to the server");
+                } else {
+                    console.log("Failed to send survey data");
+                }
+            });
+        }
 
         overlay.style.display = 'none';
         surveyModal.style.display = 'none';
@@ -218,6 +227,50 @@ inviteButton.addEventListener("click", (e) => {
     window.location.href + ROOM_ID
   );
 });
+
+socket.on("receiveSurvey", (surveyData) => {
+    console.log("Получил surveyData от сервера");
+    displaySurveyModal(surveyData);
+});
+
+function displaySurveyModal(surveyData) {
+    // Получаем HTML-элементы из DOM
+    const incomingSurveyModal = document.getElementById('surveyModal');
+    const incomingSurveyQuestionInput = document.getElementById('surveyQuestionInput');
+    const incomingPredefinedAnswers = document.getElementById('predefinedAnswers');
+    const incomingAnswerSurveyButton = document.getElementById('answerSurveyButton');
+    const incomingCloseSurveyModalButton = document.getElementById('closeSurveyModalButton');
+
+    // Устанавливаем текст вопроса
+    incomingSurveyQuestionInput.textContent = surveyData.question;
+
+    // Создаем элементы для вариантов ответа
+    incomingPredefinedAnswers.innerHTML = "";
+    surveyData.options.forEach(option => {
+        const answerOption = document.createElement('p');
+        answerOption.textContent = option;
+        answerOption.addEventListener('click', () => {
+            // Отправляем ответ на сервер
+            socket.emit("submitSurveyAnswer", { question: surveyData.question, answer: option });
+            // Закрываем модальное окно опроса
+            incomingSurveyModal.style.display = 'none';
+        });
+        incomingPredefinedAnswers.appendChild(answerOption);
+    });
+
+    // Устанавливаем обработчик для кнопки закрытия
+    incomingCloseSurveyModalButton.addEventListener('click', () => {
+        incomingSurveyModal.style.display = 'none';
+    });
+
+    // Устанавливаем обработчик для кнопки ответа
+    incomingAnswerSurveyButton.addEventListener('click', () => {
+        alert('Пожалуйста, выберите один из вариантов ответа.');
+    });
+
+    // Отображаем модальное окно
+    incomingSurveyModal.style.display = 'flex';
+}
 
 socket.on("createMessage", (message, userName) => {
   messages.innerHTML =

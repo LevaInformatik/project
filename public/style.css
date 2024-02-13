@@ -81,6 +81,7 @@ button {
     border: 1px solid #ccc;
     border-radius: 5px;
     display: flex;
+    font-size: 18px;
     align-items: center;
 }
 
@@ -90,21 +91,85 @@ button {
     margin-bottom: 20px;
 }
 
-    .predefined-answers p {
-        margin: 10px 0;
-    }
+.predefined-answers p {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: auto;
+    transition: background-color 0.3s;
+}
 
 #startSurvey {
-    background-color: #2f80ec;
+    background-color: #4caf50;
     color: #fff;
-    padding: 15px 20px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
 #startSurvey:hover {
-   background-color: #1c5da1;
+    background-color: #45a049;
+}
+
+#incomingSurveyModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#incomingSurveyQuestionInput {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#incomingPredefinedAnswers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#predefinedAnswers p {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #2f80ec;
+    color: #fff;
+    border-radius: 5px;
+}
+
+#incomingPredefinedAnswers p:hover {
+    background-color: #1c5ca8;
+}
+
+#incomingAnswerSurveyButton {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #2f80ec;
+    color: #fff;
+    border-radius: 5px;
+}
+
+#incomingAnswerSurveyButton:hover {
+    background-color: #1c5ca8;
+}
+
+#incomingCloseSurveyModalButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #2f80ec;
 }
 
 * {

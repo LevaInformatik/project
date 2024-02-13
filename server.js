@@ -37,8 +37,16 @@ io.on("connection", (socket) => {
     socket.on("message", (message) => {
       io.to(roomId).emit("createMessage", message, userName);
     });
-    socket.on('createSurvey', (questionData) => {
-      io.to(roomId).emit('receiveSurvey', questionData);
+    socket.on("startSurvey", (surveyData, callback) => {
+      // Обработка surveyData на сервере
+      console.log("Survey data received on the server:");
+      callback('sent');
+
+      // Добавляем флажок
+      console.log("Отправил surveyData клиенту");
+      
+      // Отправляем surveyData всем остальным участникам беседы
+      socket.broadcast.json.send("receiveSurvey", surveyData);
     });
   });
 });
