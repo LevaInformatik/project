@@ -16,12 +16,16 @@ const opinions = {
 app.use("/peerjs", ExpressPeerServer(server, opinions));
 app.use(express.static("public"));
 
+function RenderRoom(res, roomId, role = "participant") {
+  res.render("room", { roomId: roomId, role: role });
+}
+
 app.get("/", (req, res) => {
-  res.redirect(`/${uuidv4()}`);
+  RenderRoom(res, uuidv4(), "admin")
 });
 
 app.get("/:room", (req, res) => {
-  res.render("room", { roomId: req.params.room });
+  RenderRoom(res, req.params.room)
 });
 
 io.on("connection", (socket) => {

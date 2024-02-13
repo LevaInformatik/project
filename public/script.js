@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const question = surveyQuestionInput.value;
 
         if (!question) {
-            alert('Введите вопрос перед запуском опроса.');
+            alert('пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.');
             return;
         }
 
@@ -206,12 +206,16 @@ document.addEventListener('DOMContentLoaded', () => {
         surveyModal.style.display = 'none';
     });
 
+    if (USER_ROLE != "admin") {
+      createInteractive.style.display = 'none';
+      inviteButton.style.display = 'none';
+    }
 });
 
 inviteButton.addEventListener("click", (e) => {
   prompt(
     "Copy this link and send it to people you want to meet with",
-    window.location.href
+    window.location.href + ROOM_ID
   );
 });
 
